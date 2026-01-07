@@ -213,7 +213,7 @@ export default function ChatBox() {
       </div>
 
       {/* Messages area - clean top, chaos bottom */}
-      <div className="relative flex-1 flex flex-col bg-gradient-to-b from-white to-neutral-50">
+      <div className="relative flex-1 min-h-0 flex flex-col bg-gradient-to-b from-white to-neutral-50">
         <ChatMessages 
           messages={messages} 
           isTyping={isTyping} 
