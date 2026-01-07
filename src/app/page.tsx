@@ -5,20 +5,20 @@ import VisitorCounter from "@/components/VisitorCounter";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+    <main className="h-screen bg-background relative overflow-hidden flex flex-col">
       <IntroOverlay />
       <Header />
       
-      {/* Centered chat container - responsive padding */}
-      <div className="flex-1 flex items-center justify-center px-3 sm:px-4 md:px-6 pt-20 pb-16 sm:py-20">
+      {/* Chat container - fixed position on mobile, centered on desktop */}
+      <div className="flex-1 flex items-center justify-center px-0 sm:px-4 pt-16 sm:pt-20 pb-12 sm:pb-16">
         <ChatBox />
       </div>
 
-      {/* Visitor counter - hidden on very small screens */}
+      {/* Visitor counter */}
       <VisitorCounter />
 
-      {/* Copyright - responsive positioning */}
-      <footer className="fixed bottom-2 right-3 sm:bottom-4 sm:right-4 text-[10px] sm:text-xs text-neutral-600 font-light">
+      {/* Copyright */}
+      <footer className="fixed bottom-2 right-3 sm:bottom-4 sm:right-4 text-[10px] sm:text-xs text-neutral-600 font-light z-10">
         © 2026 bountydot.money
       </footer>
     </main>
