@@ -196,7 +196,7 @@ export default function ChatBox() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="relative w-full max-w-lg h-[70vh] bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden flex flex-col border border-neutral-300"
+      className="relative w-full max-w-2xl h-[75vh] bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden flex flex-col border border-neutral-300"
     >
       {/* Clean header area */}
       <div className="px-6 py-4 border-b border-neutral-300">
