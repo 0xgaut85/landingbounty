@@ -209,7 +209,7 @@ export default function ChatBox() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="w-full h-full sm:w-full sm:max-w-2xl sm:h-auto sm:max-h-[80vh] bg-white sm:rounded-3xl sm:shadow-2xl sm:shadow-black/20 flex flex-col sm:border border-neutral-300"
+      className="w-full h-full sm:w-full sm:max-w-2xl sm:min-h-[500px] sm:h-[70vh] bg-white sm:rounded-3xl sm:shadow-2xl sm:shadow-black/20 flex flex-col sm:border border-neutral-300"
     >
       {/* Header - includes branding on mobile */}
       <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-neutral-200 flex-shrink-0 safe-area-top">
