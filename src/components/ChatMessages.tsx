@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export interface Message {
   id: string;
@@ -20,7 +20,6 @@ export default function ChatMessages({
   messages, 
   isTyping, 
   streamingMessage,
-  streamingId 
 }: ChatMessagesProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -40,10 +39,10 @@ export default function ChatMessages({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15 }}
-            className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+            className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed font-light ${
               message.role === "user"
-                ? "bg-foreground text-background rounded-br-md"
-                : "bg-white border border-neutral-200 text-foreground rounded-bl-md"
+                ? "bg-neutral-900 text-white rounded-br-md"
+                : "bg-white border border-neutral-300 text-neutral-900 rounded-bl-md shadow-sm"
             }`}
           >
             {message.content}
@@ -54,10 +53,10 @@ export default function ChatMessages({
       {/* Streaming message - no animation wrapper to avoid jump */}
       {isTyping && streamingMessage !== undefined && (
         <div className="flex justify-start">
-          <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-bl-md bg-white border border-neutral-200 text-foreground text-sm leading-relaxed">
+          <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-bl-md bg-white border border-neutral-300 text-neutral-900 text-sm leading-relaxed font-light shadow-sm">
             {streamingMessage}
             <span 
-              className="inline-block w-0.5 h-4 bg-neutral-800 ml-0.5 align-middle"
+              className="inline-block w-0.5 h-4 bg-neutral-900 ml-0.5 align-middle"
               style={{
                 animation: "blink 1s step-end infinite"
               }}

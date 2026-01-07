@@ -18,7 +18,7 @@ export default function Home() {
       <VisitorCounter />
 
       {/* Copyright */}
-      <footer className="fixed bottom-4 right-4 text-xs text-neutral-400">
+      <footer className="fixed bottom-4 right-4 text-xs text-neutral-500 font-light">
         © 2026 bountydot.money
       </footer>
     </main>

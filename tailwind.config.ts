@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         background: "#fafafa",
-        foreground: "#171717",
+        foreground: "#0a0a0a",
       },
       fontFamily: {
         montserrat: ["var(--font-montserrat)", "sans-serif"],

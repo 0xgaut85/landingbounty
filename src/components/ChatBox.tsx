@@ -38,7 +38,7 @@ export default function ChatBox() {
     {
       id: generateId(),
       role: "assistant",
-      content: "Welcome to Bounty. What would you like to hunt today?",
+      content: "gm ser. what do you want to know about Bounty?",
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
@@ -196,10 +196,10 @@ export default function ChatBox() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="relative w-full max-w-lg h-[70vh] bg-white rounded-3xl shadow-2xl shadow-black/10 overflow-hidden flex flex-col"
+      className="relative w-full max-w-lg h-[70vh] bg-white rounded-3xl shadow-2xl shadow-black/15 overflow-hidden flex flex-col border border-neutral-200"
     >
       {/* Clean header area */}
-      <div className="px-6 py-4 border-b border-neutral-100">
+      <div className="px-6 py-4 border-b border-neutral-200">
         <div className="flex items-center gap-3">
           <img 
             src="/logo.png" 
@@ -208,7 +208,7 @@ export default function ChatBox() {
             height={16}
             className="object-contain"
           />
-          <span className="text-sm font-medium text-neutral-600">Bounty Agent</span>
+          <span className="text-sm font-medium text-neutral-800">Bounty Agent</span>
         </div>
       </div>
 

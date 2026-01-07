@@ -46,7 +46,7 @@ export default function VisitorCounter() {
   if (count === null) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 text-xs text-neutral-400">
+    <div className="fixed bottom-4 left-4 text-xs text-neutral-500 font-light">
       {count.toLocaleString()} visitors
     </div>
   );

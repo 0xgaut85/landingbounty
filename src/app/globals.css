@@ -4,14 +4,14 @@
 
 :root {
   --background: #fafafa;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-montserrat), sans-serif;
-  font-weight: 100;
+  font-weight: 200;
   min-height: 100vh;
 }
 
