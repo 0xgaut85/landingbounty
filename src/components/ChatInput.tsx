@@ -53,12 +53,12 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
   };
 
   return (
-    <div className="p-4 border-t border-neutral-200 bg-white/80 backdrop-blur-sm">
-      <div className="flex items-center gap-3">
+    <div className="p-3 sm:p-4 border-t border-neutral-200 bg-white/80 backdrop-blur-sm flex-shrink-0">
+      <div className="flex items-center gap-2 sm:gap-3">
         {!isUnlocked ? (
           <motion.button
             onClick={handleUnlock}
-            className="flex-1 px-4 py-3 bg-neutral-100 rounded-xl text-sm text-neutral-500 cursor-pointer relative overflow-hidden"
+            className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 bg-neutral-100 rounded-xl text-xs sm:text-sm text-neutral-500 cursor-pointer relative overflow-hidden"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             style={{ filter: "blur(1px)" }}
@@ -74,7 +74,7 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
             onKeyDown={handleKeyDown}
             disabled={disabled}
             placeholder="Ask anything..."
-            className="flex-1 px-4 py-3 bg-neutral-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-neutral-300 transition-all placeholder:text-neutral-400 disabled:opacity-50"
+            className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 bg-neutral-100 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-neutral-300 transition-all placeholder:text-neutral-400 disabled:opacity-50"
           />
         )}
         <motion.button
@@ -82,11 +82,10 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
           whileTap={{ scale: 0.95 }}
           onClick={handleSend}
           disabled={disabled || !input.trim() || !isUnlocked}
-          className="p-3 bg-foreground text-background rounded-xl disabled:opacity-30 transition-opacity"
+          className="p-2.5 sm:p-3 bg-foreground text-background rounded-xl disabled:opacity-30 transition-opacity"
         >
           <svg
-            width="18"
-            height="18"
+            className="w-4 h-4 sm:w-[18px] sm:h-[18px]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

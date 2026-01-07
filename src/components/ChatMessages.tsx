@@ -28,7 +28,7 @@ export default function ChatMessages({
   }, [messages, streamingMessage]);
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto px-4 py-6 space-y-4 scrollbar-thin">
+    <div className="flex-1 min-h-0 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6 space-y-3 sm:space-y-4 scrollbar-thin">
       {/* Render all completed messages */}
       {messages.map((message) => (
         <div
@@ -39,7 +39,7 @@ export default function ChatMessages({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15 }}
-            className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed font-light whitespace-pre-wrap ${
+            className={`max-w-[85%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm leading-relaxed font-light whitespace-pre-wrap ${
               message.role === "user"
                 ? "bg-black text-white rounded-br-md"
                 : "bg-white border border-neutral-400 text-black rounded-bl-md shadow-sm"
@@ -53,10 +53,10 @@ export default function ChatMessages({
       {/* Streaming message - no animation wrapper to avoid jump */}
       {isTyping && streamingMessage !== undefined && (
         <div className="flex justify-start">
-          <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-bl-md bg-white border border-neutral-400 text-black text-sm leading-relaxed font-light shadow-sm whitespace-pre-wrap">
+          <div className="max-w-[85%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl rounded-bl-md bg-white border border-neutral-400 text-black text-xs sm:text-sm leading-relaxed font-light shadow-sm whitespace-pre-wrap">
             {streamingMessage}
             <span 
-              className="inline-block w-0.5 h-4 bg-black ml-0.5 align-middle"
+              className="inline-block w-0.5 h-3 sm:h-4 bg-black ml-0.5 align-middle"
               style={{
                 animation: "blink 1s step-end infinite"
               }}

@@ -16,7 +16,7 @@ export default function Logo() {
         width={48}
         height={48}
         priority
-        className="w-12 h-12"
+        className="w-9 h-9 sm:w-12 sm:h-12"
       />
     </motion.div>
   );

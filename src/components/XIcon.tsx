@@ -19,8 +19,7 @@ export default function XIcon({ href }: XIconProps) {
       aria-label="Follow us on X"
     >
       <svg
-        width="24"
-        height="24"
+        className="w-5 h-5 sm:w-6 sm:h-6"
         viewBox="0 0 24 24"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
