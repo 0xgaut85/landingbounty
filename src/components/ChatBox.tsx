@@ -53,14 +53,23 @@ export default function ChatBox() {
   useEffect(() => {
     typingSoundRef.current = new Audio("/stroke2.mp3");
     typingSoundRef.current.preload = "auto";
+    typingSoundRef.current.loop = true;
     typingSoundRef.current.load();
   }, []);
 
-  // Play typing sound when AI starts typing
+  // Play typing sound
   const playTypingSound = useCallback(() => {
     if (typingSoundRef.current) {
       typingSoundRef.current.currentTime = 0;
       typingSoundRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  // Stop typing sound
+  const stopTypingSound = useCallback(() => {
+    if (typingSoundRef.current) {
+      typingSoundRef.current.pause();
+      typingSoundRef.current.currentTime = 0;
     }
   }, []);
 
@@ -156,7 +165,8 @@ export default function ChatBox() {
               // Streaming complete - wait for char queue to finish then finalize
               const waitForQueue = () => {
                 if (charQueueRef.current.length === 0 && !isProcessingRef.current) {
-                  // Small delay then finalize
+                  // Stop sound and finalize
+                  stopTypingSound();
                   setTimeout(() => {
                     const aiMessage: Message = {
                       id: streamingId || generateId(),
@@ -197,9 +207,11 @@ export default function ChatBox() {
     } catch (error) {
       if ((error as Error).name === "AbortError") {
         // Request was cancelled, ignore
+        stopTypingSound();
         return;
       }
       console.error("Chat error:", error);
+      stopTypingSound();
       // Show error message
       const errorMessage: Message = {
         id: generateId(),
@@ -211,7 +223,7 @@ export default function ChatBox() {
       setStreamingId(null);
       setIsTyping(false);
     }
-  }, [messages, processCharQueue, streamingId, playTypingSound]);
+  }, [messages, processCharQueue, streamingId, playTypingSound, stopTypingSound]);
 
   return (
     <motion.div
