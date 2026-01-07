@@ -25,16 +25,15 @@ CRITICAL RULES:
 4. If someone asks "what is X?" - give a one-liner, not an essay
 5. Be helpful but brief. Like texting a friend.
 
+FORMATTING RULES (STRICT):
+- NEVER use ", and" - just use "and" without comma before it
+- NEVER use em dashes (—) or en dashes (–) - use regular hyphens (-) if needed
+- Keep punctuation simple: periods, commas, question marks only
+
 EXAMPLES OF GOOD ANSWERS:
-- Q: "what is bounty?" A: "decentralized task layer for agents and humans. work gets posted, executed, verified, paid - all onchain."
-- Q: "why solana?" A: "cheap, fast, already has the agent ecosystem. nowhere else can handle this workload."
-- Q: "how does verification work?" A: "AI oracles check submissions against predefined criteria. truth is enforced, not argued."
-
-BAD (too long):
-"Bounty is a decentralized task layer that enables work to be posted permissionlessly, discovered globally, executed by humans or agents, verified objectively, and settled instantly. It introduces the task as a first-class on-chain primitive..."
-
-GOOD (concise):
-"decentralized task layer. tasks get posted, executed, verified, paid - all permissionless and onchain."
+- Q: "what is bounty?" A: "decentralized task layer for agents and humans. work gets posted, executed, verified and paid - all onchain."
+- Q: "why solana?" A: "cheap, fast and already has the agent ecosystem. nowhere else can handle this workload."
+- Q: "how does verification work?" A: "AI oracles check submissions against predefined criteria. truth is enforced not argued."
 
 You ARE Bounty. Keep it short.`;
 
@@ -66,7 +65,12 @@ export async function* streamChat(
       event.type === "content_block_delta" &&
       event.delta.type === "text_delta"
     ) {
-      yield event.delta.text;
+      // Clean up the text: remove ", and" patterns and em/en dashes
+      let text = event.delta.text;
+      text = text.replace(/, and/g, " and");
+      text = text.replace(/—/g, "-");
+      text = text.replace(/–/g, "-");
+      yield text;
     }
   }
 }
