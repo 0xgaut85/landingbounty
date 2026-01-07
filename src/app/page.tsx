@@ -15,7 +15,7 @@ export default function Home() {
 
       {/* Copyright */}
       <footer className="fixed bottom-4 right-4 text-xs text-neutral-400">
-        © 2026 bounty.money
+        © 2026 bountydot.money
       </footer>
     </main>
   );
