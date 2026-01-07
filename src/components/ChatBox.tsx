@@ -201,20 +201,13 @@ export default function ChatBox() {
       {/* Clean header area */}
       <div className="px-6 py-4 border-b border-neutral-100">
         <div className="flex items-center gap-3">
-          <svg 
-            width="12" 
-            height="12" 
-            viewBox="0 0 12 12" 
-            fill="none" 
-            className="text-black"
-          >
-            <path 
-              d="M1 1L11 11M1 11L11 1" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round"
-            />
-          </svg>
+          <img 
+            src="/logo.png" 
+            alt="Bounty" 
+            width={16} 
+            height={16}
+            className="object-contain"
+          />
           <span className="text-sm font-medium text-neutral-600">Bounty Agent</span>
         </div>
       </div>
