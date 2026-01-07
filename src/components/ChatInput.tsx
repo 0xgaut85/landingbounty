@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, KeyboardEvent, useRef } from "react";
+import { useState, KeyboardEvent, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
 interface ChatInputProps {
@@ -14,22 +14,28 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Preload audio on mount
+  useEffect(() => {
+    audioRef.current = new Audio("/stroke1.mp3");
+    audioRef.current.preload = "auto";
+    audioRef.current.load();
+  }, []);
+
   const handleUnlock = () => {
     if (isUnlocked) return;
     
-    // Play sound
-    if (!audioRef.current) {
-      audioRef.current = new Audio("/stroke1.mp3");
+    // Play sound immediately
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
     }
-    audioRef.current.currentTime = 0;
-    audioRef.current.play().catch(() => {});
     
     setIsUnlocked(true);
     
     // Focus input after unlock
     setTimeout(() => {
       inputRef.current?.focus();
-    }, 100);
+    }, 50);
   };
 
   const handleSend = () => {
