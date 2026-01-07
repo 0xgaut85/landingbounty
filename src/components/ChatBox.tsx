@@ -14,23 +14,16 @@ function generateId() {
 const PAUSE_CHARS = [",", ".", "!", "?", ":", ";"];
 
 function getTypingDelay(char: string, prevChar: string): number {
-  // Longer pause after punctuation (human thinking)
   if (PAUSE_CHARS.includes(prevChar)) {
-    return 150 + Math.random() * 300; // 150-450ms
+    return 150 + Math.random() * 300;
   }
-  
-  // Occasional random hesitation (5% chance)
   if (Math.random() < 0.05) {
-    return 200 + Math.random() * 200; // 200-400ms
+    return 200 + Math.random() * 200;
   }
-  
-  // Space sometimes has slight pause
   if (char === " " && Math.random() < 0.3) {
-    return 80 + Math.random() * 100; // 80-180ms
+    return 80 + Math.random() * 100;
   }
-  
-  // Base typing speed with more variation
-  return 25 + Math.random() * 75; // 25-100ms
+  return 25 + Math.random() * 75;
 }
 
 export default function ChatBox() {
@@ -49,7 +42,6 @@ export default function ChatBox() {
   const isProcessingRef = useRef(false);
   const typingSoundRef = useRef<HTMLAudioElement | null>(null);
 
-  // Preload typing sound
   useEffect(() => {
     typingSoundRef.current = new Audio("/stroke2.mp3");
     typingSoundRef.current.preload = "auto";
@@ -57,7 +49,6 @@ export default function ChatBox() {
     typingSoundRef.current.load();
   }, []);
 
-  // Play typing sound
   const playTypingSound = useCallback(() => {
     if (typingSoundRef.current) {
       typingSoundRef.current.currentTime = 0;
@@ -65,7 +56,6 @@ export default function ChatBox() {
     }
   }, []);
 
-  // Stop typing sound
   const stopTypingSound = useCallback(() => {
     if (typingSoundRef.current) {
       typingSoundRef.current.pause();
@@ -73,7 +63,6 @@ export default function ChatBox() {
     }
   }, []);
 
-  // Process character queue with human-like delays
   const processCharQueue = useCallback(() => {
     if (isProcessingRef.current || charQueueRef.current.length === 0) return;
     
@@ -100,12 +89,10 @@ export default function ChatBox() {
   }, []);
 
   const handleSend = useCallback(async (content: string) => {
-    // Cancel any ongoing request
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
 
-    // Add user message
     const userMessage: Message = {
       id: generateId(),
       role: "user",
@@ -115,14 +102,12 @@ export default function ChatBox() {
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
 
-    // Start AI typing
     setIsTyping(true);
     setStreamingMessage("");
     setStreamingId(generateId());
     charQueueRef.current = [];
     isProcessingRef.current = false;
 
-    // Create abort controller for this request
     abortControllerRef.current = new AbortController();
 
     try {
@@ -162,10 +147,8 @@ export default function ChatBox() {
           if (line.startsWith("data: ")) {
             const data = line.slice(6);
             if (data === "[DONE]") {
-              // Streaming complete - wait for char queue to finish then finalize
               const waitForQueue = () => {
                 if (charQueueRef.current.length === 0 && !isProcessingRef.current) {
-                  // Stop sound and finalize
                   stopTypingSound();
                   setTimeout(() => {
                     const aiMessage: Message = {
@@ -187,13 +170,11 @@ export default function ChatBox() {
               try {
                 const parsed = JSON.parse(data);
                 if (parsed.text) {
-                  // Play sound on first chunk
                   if (!soundPlayed) {
                     playTypingSound();
                     soundPlayed = true;
                   }
                   fullResponse += parsed.text;
-                  // Add characters to queue
                   charQueueRef.current.push(...parsed.text.split(""));
                   processCharQueue();
                 }
@@ -206,13 +187,11 @@ export default function ChatBox() {
       }
     } catch (error) {
       if ((error as Error).name === "AbortError") {
-        // Request was cancelled, ignore
         stopTypingSound();
         return;
       }
       console.error("Chat error:", error);
       stopTypingSound();
-      // Show error message
       const errorMessage: Message = {
         id: generateId(),
         role: "assistant",
@@ -230,24 +209,35 @@ export default function ChatBox() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="relative w-full h-full sm:w-auto sm:h-auto sm:max-w-2xl sm:max-h-[75vh] bg-white sm:rounded-3xl shadow-2xl shadow-black/20 overflow-hidden flex flex-col sm:border border-neutral-300"
+      className="w-full h-full sm:w-full sm:max-w-2xl sm:h-auto sm:max-h-[80vh] bg-white sm:rounded-3xl sm:shadow-2xl sm:shadow-black/20 flex flex-col sm:border border-neutral-300"
     >
-      {/* Clean header area */}
-      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-neutral-300 flex-shrink-0">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <img 
-            src="/logo.png" 
-            alt="Bounty" 
-            width={14} 
-            height={14}
-            className="object-contain sm:w-4 sm:h-4"
-          />
-          <span className="text-xs sm:text-sm font-medium text-black">Bounty Agent</span>
+      {/* Header - includes branding on mobile */}
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-neutral-200 flex-shrink-0 safe-area-top">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <img 
+              src="/logo.png" 
+              alt="Bounty" 
+              className="w-6 h-6 sm:w-4 sm:h-4 object-contain"
+            />
+            <span className="text-sm sm:text-sm font-medium text-black">Bounty Agent</span>
+          </div>
+          {/* X icon only on mobile */}
+          <a 
+            href="https://x.com/bountydotmoney" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="sm:hidden text-black hover:opacity-70"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
         </div>
       </div>
 
-      {/* Messages area - clean top, chaos bottom */}
-      <div className="relative flex-1 min-h-0 flex flex-col bg-gradient-to-b from-white to-neutral-50">
+      {/* Messages area */}
+      <div className="relative flex-1 min-h-0 flex flex-col bg-gradient-to-b from-white to-neutral-50 overflow-hidden">
         <ChatMessages 
           messages={messages} 
           isTyping={isTyping} 
@@ -255,12 +245,13 @@ export default function ChatBox() {
           streamingId={streamingId}
         />
         
-        {/* Halftone chaos overlay at bottom */}
         <HalftoneOverlay />
       </div>
 
       {/* Input area */}
-      <ChatInput onSend={handleSend} disabled={isTyping} />
+      <div className="flex-shrink-0 safe-area-bottom">
+        <ChatInput onSend={handleSend} disabled={isTyping} />
+      </div>
     </motion.div>
   );
 }

@@ -22,14 +22,17 @@ export default function ChatMessages({
   streamingMessage,
 }: ChatMessagesProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingMessage]);
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6 space-y-3 sm:space-y-4 scrollbar-thin">
-      {/* Render all completed messages */}
+    <div 
+      ref={containerRef}
+      className="flex-1 overflow-y-auto overscroll-contain px-4 sm:px-5 py-4 sm:py-6 space-y-3 sm:space-y-4 scrollbar-thin"
+    >
       {messages.map((message) => (
         <div
           key={message.id}
@@ -39,10 +42,10 @@ export default function ChatMessages({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15 }}
-            className={`max-w-[85%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm leading-relaxed font-light whitespace-pre-wrap ${
+            className={`max-w-[85%] sm:max-w-[80%] px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl text-[13px] sm:text-sm leading-relaxed font-light whitespace-pre-wrap ${
               message.role === "user"
-                ? "bg-black text-white rounded-br-md"
-                : "bg-white border border-neutral-400 text-black rounded-bl-md shadow-sm"
+                ? "bg-black text-white rounded-br-sm"
+                : "bg-white border border-neutral-300 text-black rounded-bl-sm shadow-sm"
             }`}
           >
             {message.content}
@@ -50,22 +53,19 @@ export default function ChatMessages({
         </div>
       ))}
 
-      {/* Streaming message - no animation wrapper to avoid jump */}
       {isTyping && streamingMessage !== undefined && (
         <div className="flex justify-start">
-          <div className="max-w-[85%] sm:max-w-[80%] px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl rounded-bl-md bg-white border border-neutral-400 text-black text-xs sm:text-sm leading-relaxed font-light shadow-sm whitespace-pre-wrap">
+          <div className="max-w-[85%] sm:max-w-[80%] px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl rounded-bl-sm bg-white border border-neutral-300 text-black text-[13px] sm:text-sm leading-relaxed font-light shadow-sm whitespace-pre-wrap">
             {streamingMessage}
             <span 
-              className="inline-block w-0.5 h-3 sm:h-4 bg-black ml-0.5 align-middle"
-              style={{
-                animation: "blink 1s step-end infinite"
-              }}
+              className="inline-block w-0.5 h-3.5 sm:h-4 bg-black ml-0.5 align-middle"
+              style={{ animation: "blink 1s step-end infinite" }}
             />
           </div>
         </div>
       )}
 
-      <div ref={messagesEndRef} />
+      <div ref={messagesEndRef} className="h-1" />
 
       <style jsx>{`
         @keyframes blink {

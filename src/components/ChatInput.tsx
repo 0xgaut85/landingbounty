@@ -14,7 +14,6 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Preload audio on mount
   useEffect(() => {
     audioRef.current = new Audio("/stroke1.mp3");
     audioRef.current.preload = "auto";
@@ -24,7 +23,6 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
   const handleUnlock = () => {
     if (isUnlocked) return;
     
-    // Play sound immediately
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch(() => {});
@@ -32,7 +30,6 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
     
     setIsUnlocked(true);
     
-    // Focus input after unlock
     setTimeout(() => {
       inputRef.current?.focus();
     }, 50);
@@ -53,17 +50,17 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
   };
 
   return (
-    <div className="p-3 sm:p-4 border-t border-neutral-200 bg-white/80 backdrop-blur-sm flex-shrink-0">
+    <div className="px-3 sm:px-4 py-3 sm:py-4 border-t border-neutral-200 bg-white">
       <div className="flex items-center gap-2 sm:gap-3">
         {!isUnlocked ? (
           <motion.button
             onClick={handleUnlock}
-            className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 bg-neutral-100 rounded-xl text-xs sm:text-sm text-neutral-500 cursor-pointer relative overflow-hidden"
+            className="flex-1 px-4 py-3 bg-neutral-100 rounded-xl text-sm text-neutral-500 cursor-pointer"
             whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
+            whileTap={{ scale: 0.98 }}
             style={{ filter: "blur(1px)" }}
           >
-            <span className="relative z-10">unlock</span>
+            unlock
           </motion.button>
         ) : (
           <input
@@ -74,7 +71,7 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
             onKeyDown={handleKeyDown}
             disabled={disabled}
             placeholder="Ask anything..."
-            className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 bg-neutral-100 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-neutral-300 transition-all placeholder:text-neutral-400 disabled:opacity-50"
+            className="flex-1 px-4 py-3 bg-neutral-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-neutral-300 transition-all placeholder:text-neutral-400 disabled:opacity-50"
           />
         )}
         <motion.button
@@ -82,10 +79,10 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
           whileTap={{ scale: 0.95 }}
           onClick={handleSend}
           disabled={disabled || !input.trim() || !isUnlocked}
-          className="p-2.5 sm:p-3 bg-foreground text-background rounded-xl disabled:opacity-30 transition-opacity"
+          className="p-3 bg-black text-white rounded-xl disabled:opacity-30 transition-opacity flex-shrink-0"
         >
           <svg
-            className="w-4 h-4 sm:w-[18px] sm:h-[18px]"
+            className="w-[18px] h-[18px]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
