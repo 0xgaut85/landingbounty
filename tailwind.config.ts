@@ -13,8 +13,10 @@ const config: Config = {
         foreground: "#171717",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        montserrat: ["var(--font-montserrat)", "sans-serif"],
+      },
+      fontWeight: {
+        extralight: "100",
       },
     },
   },
