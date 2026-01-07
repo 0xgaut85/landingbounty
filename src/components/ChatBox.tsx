@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import ChatMessages, { Message } from "./ChatMessages";
 import ChatInput from "./ChatInput";
@@ -47,6 +47,22 @@ export default function ChatBox() {
   const abortControllerRef = useRef<AbortController | null>(null);
   const charQueueRef = useRef<string[]>([]);
   const isProcessingRef = useRef(false);
+  const typingSoundRef = useRef<HTMLAudioElement | null>(null);
+
+  // Preload typing sound
+  useEffect(() => {
+    typingSoundRef.current = new Audio("/stroke2.mp3");
+    typingSoundRef.current.preload = "auto";
+    typingSoundRef.current.load();
+  }, []);
+
+  // Play typing sound when AI starts typing
+  const playTypingSound = useCallback(() => {
+    if (typingSoundRef.current) {
+      typingSoundRef.current.currentTime = 0;
+      typingSoundRef.current.play().catch(() => {});
+    }
+  }, []);
 
   // Process character queue with human-like delays
   const processCharQueue = useCallback(() => {
@@ -124,6 +140,7 @@ export default function ChatBox() {
 
       const decoder = new TextDecoder();
       let fullResponse = "";
+      let soundPlayed = false;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -160,6 +177,11 @@ export default function ChatBox() {
               try {
                 const parsed = JSON.parse(data);
                 if (parsed.text) {
+                  // Play sound on first chunk
+                  if (!soundPlayed) {
+                    playTypingSound();
+                    soundPlayed = true;
+                  }
                   fullResponse += parsed.text;
                   // Add characters to queue
                   charQueueRef.current.push(...parsed.text.split(""));
@@ -189,7 +211,7 @@ export default function ChatBox() {
       setStreamingId(null);
       setIsTyping(false);
     }
-  }, [messages, processCharQueue, streamingId]);
+  }, [messages, processCharQueue, streamingId, playTypingSound]);
 
   return (
     <motion.div
