@@ -41,8 +41,8 @@ export default function ChatMessages({
             transition={{ duration: 0.15 }}
             className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed font-light ${
               message.role === "user"
-                ? "bg-neutral-900 text-white rounded-br-md"
-                : "bg-white border border-neutral-300 text-neutral-900 rounded-bl-md shadow-sm"
+                ? "bg-black text-white rounded-br-md"
+                : "bg-white border border-neutral-400 text-black rounded-bl-md shadow-sm"
             }`}
           >
             {message.content}
@@ -53,10 +53,10 @@ export default function ChatMessages({
       {/* Streaming message - no animation wrapper to avoid jump */}
       {isTyping && streamingMessage !== undefined && (
         <div className="flex justify-start">
-          <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-bl-md bg-white border border-neutral-300 text-neutral-900 text-sm leading-relaxed font-light shadow-sm">
+          <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-bl-md bg-white border border-neutral-400 text-black text-sm leading-relaxed font-light shadow-sm">
             {streamingMessage}
             <span 
-              className="inline-block w-0.5 h-4 bg-neutral-900 ml-0.5 align-middle"
+              className="inline-block w-0.5 h-4 bg-black ml-0.5 align-middle"
               style={{
                 animation: "blink 1s step-end infinite"
               }}

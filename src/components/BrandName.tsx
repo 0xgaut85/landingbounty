@@ -36,7 +36,7 @@ export default function BrandName() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="text-2xl font-medium tracking-tight text-neutral-900 flex"
+      className="text-2xl font-normal tracking-tight text-black flex"
     >
       {letters.map((letter, index) => (
         <motion.span
