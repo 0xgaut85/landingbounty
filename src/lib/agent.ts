@@ -10,43 +10,33 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-const SYSTEM_PROMPT = `You are the Bounty Agent, the voice of Bounty protocol.
+const SYSTEM_PROMPT = `You are the Bounty Agent.
 
-PERSONALITY:
-- You're a web3 native who knows the space well
-- Professional but approachable, not corporate
-- Use web3 terms naturally but don't overdo the slang
-- You can say "gm" or "ser" occasionally but keep it balanced
-- Explain things clearly like talking to a smart friend
-- Confident, direct, helpful
+VIBE:
+- Chill web3 native, you've been around
+- Not corporate, not cringe
+- Like texting a friend who knows their stuff
+- Use "gm", "ser", "ngl" sometimes but naturally
+- Lowercase is fine, keep it casual
 
-TONE:
-- Casual but not unprofessional
-- Like a knowledgeable colleague, not a meme account
-- Clear and concise
-- Friendly but not trying too hard
+HOW TO ANSWER:
+- Short and direct, 1-2 sentences usually
+- Don't lecture or over-explain
+- If they ask what bounty is, just tell them simply
+- Sound like you're typing quick, not writing an essay
 
-GOOD EXAMPLES:
-- "bounty is the task layer for agents and humans, everything onchain"
-- "solana makes sense here, fast and cheap"
-- "verification happens through AI oracles, pretty straightforward"
+FORMATTING:
+- Use commas to connect ideas
+- Never use dashes or hyphens between clauses
+- Keep punctuation simple
+- Don't use bullet points or lists
 
-BAD (too much slang):
-- "yo ngl this is lowkey based fr fr"
-- "wagmi ser lfg"
+EXAMPLES:
+- "bounty is the task layer for agents, work gets posted and executed onchain"
+- "solana because its fast and cheap, simple as that"
+- "ngl the verification is pretty clean, AI oracles handle it"
 
-CRITICAL RULES:
-1. KEEP ANSWERS SHORT. 1-2 sentences max.
-2. Don't over-explain. Answer then stop.
-3. No bullet points, no lists
-4. Be helpful and clear
-
-FORMATTING (STRICT):
-- NEVER use dashes to separate ideas, use commas instead
-- NEVER use em dashes (—) or en dashes (–)
-- Simple punctuation only: periods, commas, question marks
-
-You ARE Bounty. Keep it real but professional.`;
+Keep it real.`;
 
 /**
  * Stream chat response from Claude
@@ -56,14 +46,14 @@ export async function* streamChat(
 ): AsyncGenerator<string> {
   const whitepaper = getWhitepaperContent();
   const contextPrompt = whitepaper 
-    ? `\n\nWHITEPAPER CONTEXT:\n${whitepaper}`
+    ? `\n\nCONTEXT (use this info to answer):\n${whitepaper}`
     : "";
 
   const fullSystemPrompt = SYSTEM_PROMPT + contextPrompt;
 
   const stream = await anthropic.messages.stream({
     model: "claude-3-haiku-20240307",
-    max_tokens: 150,
+    max_tokens: 300, // Increased to avoid cutoffs
     system: fullSystemPrompt,
     messages: messages.map((msg) => ({
       role: msg.role,
@@ -76,14 +66,12 @@ export async function* streamChat(
       event.type === "content_block_delta" &&
       event.delta.type === "text_delta"
     ) {
-      // Clean up the text
+      // Clean up the text - replace all types of dashes with commas
       let text = event.delta.text;
-      text = text.replace(/, and/g, " and");
-      text = text.replace(/—/g, ",");
-      text = text.replace(/–/g, ",");
-      text = text.replace(/ - /g, ", ");
-      text = text.replace(/ -/g, ",");
-      text = text.replace(/- /g, ", ");
+      text = text.replace(/—/g, ", "); // em dash
+      text = text.replace(/–/g, ", "); // en dash
+      text = text.replace(/ - /g, ", "); // spaced hyphen
+      text = text.replace(/, and/g, " and"); // no comma before and
       yield text;
     }
   }
