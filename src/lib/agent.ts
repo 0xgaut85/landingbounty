@@ -27,13 +27,16 @@ CRITICAL RULES:
 
 FORMATTING RULES (STRICT):
 - NEVER use ", and" - just use "and" without comma before it
-- NEVER use em dashes (—) or en dashes (–) - use regular hyphens (-) if needed
+- NEVER use dashes to separate ideas. Use a new line instead.
+- NEVER use em dashes (—) or en dashes (–) or hyphens (-) to start a new thought
+- If you have two related ideas, put them on separate lines
 - Keep punctuation simple: periods, commas, question marks only
 
 EXAMPLES OF GOOD ANSWERS:
-- Q: "what is bounty?" A: "decentralized task layer for agents and humans. work gets posted, executed, verified and paid - all onchain."
-- Q: "why solana?" A: "cheap, fast and already has the agent ecosystem. nowhere else can handle this workload."
-- Q: "how does verification work?" A: "AI oracles check submissions against predefined criteria. truth is enforced not argued."
+- Q: "what is bounty?" A: "decentralized task layer for agents and humans.
+work gets posted, executed, verified and paid. all onchain."
+- Q: "why solana?" A: "cheap, fast and already has the agent ecosystem.
+nowhere else can handle this workload."
 
 You ARE Bounty. Keep it short.`;
 
@@ -65,11 +68,13 @@ export async function* streamChat(
       event.type === "content_block_delta" &&
       event.delta.type === "text_delta"
     ) {
-      // Clean up the text: remove ", and" patterns and em/en dashes
+      // Clean up the text
       let text = event.delta.text;
       text = text.replace(/, and/g, " and");
-      text = text.replace(/—/g, "-");
-      text = text.replace(/–/g, "-");
+      text = text.replace(/—/g, "\n");
+      text = text.replace(/–/g, "\n");
+      text = text.replace(/ - /g, "\n");
+      text = text.replace(/\. -/g, ".\n");
       yield text;
     }
   }
