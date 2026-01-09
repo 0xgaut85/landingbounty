@@ -10,7 +10,17 @@ export default function Header() {
           <Logo />
           <BrandName />
         </div>
-        <XIcon href="https://x.com/bountydotmoney" />
+        <div className="flex items-center gap-3">
+          <a
+            href="https://app.bountydot.money/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-1.5 bg-black text-white text-sm font-medium rounded-full hover:bg-neutral-800 transition-colors"
+          >
+            App
+          </a>
+          <XIcon href="https://x.com/bountydotmoney" />
+        </div>
       </div>
     </header>
   );

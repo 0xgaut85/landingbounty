@@ -222,17 +222,27 @@ export default function ChatBox() {
             />
             <span className="text-sm sm:text-sm font-medium text-black">Bounty Agent</span>
           </div>
-          {/* X icon only on mobile */}
-          <a 
-            href="https://x.com/bountydotmoney" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="sm:hidden text-black hover:opacity-70"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-          </a>
+          {/* App + X icon only on mobile */}
+          <div className="flex items-center gap-2 sm:hidden">
+            <a
+              href="https://app.bountydot.money/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1 bg-black text-white text-xs font-medium rounded-full hover:bg-neutral-800 transition-colors"
+            >
+              App
+            </a>
+            <a 
+              href="https://x.com/bountydotmoney" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-black hover:opacity-70"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
